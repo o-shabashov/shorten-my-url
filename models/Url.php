@@ -28,6 +28,16 @@ class Url extends \yii\db\ActiveRecord
         return [
             [['source'], 'required'],
             [['source'], 'url'],
+            [
+                'source',
+                function ($attribute, $params) {
+                    if (parse_url($this->$attribute, PHP_URL_HOST) === parse_url(\yii\helpers\Url::home(true), PHP_URL_HOST)
+                    ) {
+                        $this->addError($attribute, 'Unable to create short URL');
+                    }
+                },
+            ],
+
             [['short'], 'string', 'max' => 100],
             [['short'], 'unique'],
         ];
@@ -40,8 +50,8 @@ class Url extends \yii\db\ActiveRecord
     {
         return [
             'id'     => Yii::t('app', 'ID'),
-            'source' => Yii::t('app', 'Source'),
-            'short'  => Yii::t('app', 'Short'),
+            'source' => Yii::t('app', 'Source URL'),
+            'short'  => Yii::t('app', 'Short URL'),
         ];
     }
 
@@ -75,6 +85,6 @@ class Url extends \yii\db\ActiveRecord
 
     public function getShortUrl()
     {
-        return sprintf('%s%s', \yii\helpers\Url::home(true), $this->short);
+        return sprintf('%s/%s', \yii\helpers\Url::base(true), $this->short);
     }
 }
