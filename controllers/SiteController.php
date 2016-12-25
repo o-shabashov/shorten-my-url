@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Url;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
@@ -41,11 +42,16 @@ class SiteController extends Controller
      * @param string|null $url
      *
      * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionIndex(string $url = null)
     {
-        if ($url && $model = Url::find()->where(['short' => $url])->one()) {
-            return $this->redirect($model->source);
+        if ($url) {
+            if ($model = Url::find()->where(['short' => $url])->one()) {
+                return $this->redirect($model->source);
+            } else {
+                throw new NotFoundHttpException('Page not found');
+            }
         }
 
         $model = new Url();
