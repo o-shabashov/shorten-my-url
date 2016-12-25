@@ -43,6 +43,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [
+                '/<url:\w+>' => 'site/index',
             ],
         ],
     ],

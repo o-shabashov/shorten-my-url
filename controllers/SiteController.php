@@ -38,22 +38,31 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @param string $url
+     * @param string|null $url
      *
-     * @return string
+     * @return string|\yii\web\Response
      */
     public function actionIndex(string $url = null)
     {
+        if ($url && $model = Url::find()->where(['short' => $url])->one()) {
+            return $this->redirect($model->source);
+        }
+
         $model = new Url();
 
         return $this->render('index', ['model' => $model]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionShort()
     {
         $model = new Url();
         if ($model->load(\Yii::$app->request->post()) && $model->save()) {
             return $this->renderAjax('_short', ['model' => $model]);
         }
+
+        return $this->goHome();
     }
 }
