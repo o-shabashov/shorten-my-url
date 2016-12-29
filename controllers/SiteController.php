@@ -46,17 +46,11 @@ class SiteController extends Controller
      */
     public function actionIndex(string $url = null)
     {
-        if ($url) {
-            if ($model = Url::find()->where(['short' => $url])->one()) {
-                return $this->redirect($model->source);
-            } else {
-                throw new NotFoundHttpException('Page not found');
-            }
+        if ($model = Url::find()->where(['short' => $url])->one()) {
+            return $this->redirect($model->source);
         }
 
-        $model = new Url();
-
-        return $this->render('index', ['model' => $model]);
+        return $this->render('index', ['model' => new Url()]);
     }
 
     /**

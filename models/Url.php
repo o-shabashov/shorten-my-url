@@ -69,12 +69,7 @@ class Url extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             $length      = rand(4, 6);
             $this->short = substr(
-                str_shuffle(
-                    str_repeat(
-                        '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-                        ceil($length / 62) // Here is 62 available characters
-                    )
-                ), 1, $length
+                str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length
             );
 
             return true;
