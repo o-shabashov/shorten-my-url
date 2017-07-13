@@ -1,4 +1,7 @@
 # Shorten My Url
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/o-shabashov/shorten-my-url?branch=master)](https://bettercodehub.com/)
+
 Simply proof-of-concept.
 
 ## Installation
